@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Container, ContactsContainer, Button } from './Contacts.styled';
 
 const RenderContacts = ({ contacts, onRemove }) => (
-  <ul>
+  <Container>
     {contacts.map(({ id, name, number }) => (
-      <li key={id}>
+      <ContactsContainer key={id}>
         <p>
           {name}: {number}
         </p>
-        <button type="button" onClick={() => onRemove(id)}>
+        <Button type="button" onClick={() => onRemove(id)}>
           Delete
-        </button>
-      </li>
+        </Button>
+      </ContactsContainer>
     ))}
-  </ul>
+  </Container>
 );
 
 export default RenderContacts;
