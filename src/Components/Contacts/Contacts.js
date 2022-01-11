@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RenderContacts = ({ contacts, onRemove }) => (
   <ul>
@@ -16,3 +17,8 @@ const RenderContacts = ({ contacts, onRemove }) => (
 );
 
 export default RenderContacts;
+
+RenderContacts.propTypes = {
+  contacts: PropTypes.array.isRequired,
+  onRemove: PropTypes.func.isRequired,
+};

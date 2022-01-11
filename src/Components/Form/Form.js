@@ -1,5 +1,5 @@
 import { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 
 class Form extends Component {
@@ -21,7 +21,6 @@ class Form extends Component {
     e.preventDefault();
     this.props.onSubmit(this.state);
     this.reset();
-    // console.log(this.state);
   };
 
   reset = () => {
@@ -66,3 +65,7 @@ class Form extends Component {
 }
 
 export default Form;
+
+Form.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

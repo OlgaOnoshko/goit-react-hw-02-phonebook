@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
 import Form from './Form/Form';
 import RenderContacts from './Contacts/Contacts';
+import Filter from './Filter/Filter';
 import contacts from './Contacts/contacts.json';
 
 class App extends Component {
@@ -10,7 +12,23 @@ class App extends Component {
   };
 
   formSubmitHandler = data => {
-    console.log(data);
+    const newContact = data.name.toLowerCase();
+    const sameName = this.state.contacts.map(
+      item => item.name.toLowerCase() === newContact,
+    );
+
+    if (sameName.includes(true)) {
+      alert(`${data.name} is already in contacts`);
+    } else {
+      const contact = {
+        id: nanoid(),
+        ...data,
+      };
+
+      this.setState(({ contacts }) => ({
+        contacts: [...contacts, contact],
+      }));
+    }
   };
 
   removeContact = contactId => {
@@ -19,14 +37,32 @@ class App extends Component {
     }));
   };
 
+  onFilter = e => {
+    console.log(e.currentTarget.value);
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter),
+    );
+  };
+
   render() {
-    const { contacts } = this.state;
     const removeContact = this.removeContact;
+    const formSubmitHandler = this.formSubmitHandler;
+    const onFilter = this.onFilter;
+    const filteredContacts = this.getFilteredContacts();
 
     return (
       <>
-        <Form onSubmit={this.formSubmitHandler} />
-        <RenderContacts contacts={contacts} onRemove={removeContact} />
+        <h1>Phonebook</h1>
+        <Form onSubmit={formSubmitHandler} />
+        <h2>Contacts</h2>
+        <Filter onChange={onFilter} />
+        <RenderContacts contacts={filteredContacts} onRemove={removeContact} />
       </>
     );
   }
